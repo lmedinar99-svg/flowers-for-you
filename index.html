@@ -37,7 +37,6 @@
       position: relative;
     }
 
-    /* Lienzo de pétalos y estrellas */
     #fxCanvas {
       position: fixed;
       top: 0;
@@ -48,7 +47,6 @@
       z-index: 1;
     }
 
-    /* Botón flotante de música */
     .music-btn {
       position: fixed;
       top: 18px;
@@ -85,19 +83,19 @@
       z-index: 10;
       width: 100%;
       max-width: 520px;
-      padding: 1.5rem 1rem 3rem;
+      padding: 1rem 1rem 2.8rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
     }
 
-    /* Ramo Escultórico SVG */
+    /* Contenedor del Gran Ramo */
     .bouquet-container {
       position: relative;
-      width: 320px;
-      height: 310px;
-      margin-bottom: 0.8rem;
+      width: 350px;
+      height: 360px;
+      margin-bottom: 0.5rem;
       cursor: pointer;
       user-select: none;
     }
@@ -105,14 +103,14 @@
     .bouquet-svg {
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.65));
+      filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.7));
       animation: floatBouquet 4s ease-in-out infinite alternate;
       transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .bouquet-container:hover .bouquet-svg {
-      transform: scale(1.05);
-      filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.4));
+      transform: scale(1.04);
+      filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.5));
     }
 
     /* Tarjeta Principal */
@@ -123,21 +121,10 @@
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 28px;
-      padding: 2.2rem 1.8rem;
+      padding: 2rem 1.6rem;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
       position: relative;
       overflow: hidden;
-    }
-
-    .main-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(253, 224, 71, 0.08) 0%, transparent 60%);
-      pointer-events: none;
     }
 
     .tag-chip {
@@ -150,25 +137,25 @@
       color: #fde047;
       background: rgba(253, 224, 71, 0.12);
       border: 1px solid rgba(253, 224, 71, 0.35);
-      padding: 6px 18px;
+      padding: 5px 16px;
       border-radius: 30px;
-      margin-bottom: 1.1rem;
+      margin-bottom: 0.9rem;
       text-transform: uppercase;
     }
 
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.6rem, 5.5vw, 2.2rem);
+      font-size: clamp(1.5rem, 5.2vw, 2.1rem);
       font-weight: 600;
       color: #ffffff;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
       line-height: 1.25;
     }
 
     .highlight-name {
       display: block;
       font-family: 'Dancing Script', cursive;
-      font-size: clamp(2rem, 7vw, 2.7rem);
+      font-size: clamp(2.1rem, 7.5vw, 2.8rem);
       background: linear-gradient(135deg, #fff275 0%, #f59e0b 60%, #fbbf24 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -177,14 +164,13 @@
     }
 
     .intro-text {
-      font-size: 0.96rem;
-      line-height: 1.75;
+      font-size: 0.94rem;
+      line-height: 1.7;
       color: #cbd5e1;
-      margin-bottom: 1.8rem;
+      margin-bottom: 1.6rem;
       font-weight: 300;
     }
 
-    /* Botón Prémium */
     .royal-btn {
       position: relative;
       background: linear-gradient(135deg, #f59e0b, #d97706);
@@ -192,8 +178,8 @@
       color: #050811;
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
-      font-size: 0.98rem;
-      padding: 14px 34px;
+      font-size: 0.96rem;
+      padding: 13px 32px;
       border-radius: 40px;
       cursor: pointer;
       box-shadow: 0 10px 30px rgba(245, 158, 11, 0.45);
@@ -204,25 +190,9 @@
       overflow: hidden;
     }
 
-    .royal-btn::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 60%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-      transform: skewX(-20deg);
-      transition: 0.6s;
-    }
-
     .royal-btn:hover {
       transform: translateY(-3px) scale(1.04);
       box-shadow: 0 15px 35px rgba(245, 158, 11, 0.65);
-    }
-
-    .royal-btn:hover::after {
-      left: 140%;
     }
 
     /* Carta Romántica Desplegable */
@@ -238,26 +208,15 @@
     .letter-box.revealed {
       max-height: 380px;
       opacity: 1;
-      margin-top: 1.8rem;
+      margin-top: 1.6rem;
     }
 
     .letter-parchment {
       background: linear-gradient(145deg, rgba(255, 251, 235, 0.08), rgba(245, 158, 11, 0.04));
       border: 1px solid rgba(253, 224, 71, 0.3);
       border-radius: 18px;
-      padding: 1.6rem;
+      padding: 1.5rem;
       position: relative;
-    }
-
-    .letter-parchment::before {
-      content: '“';
-      position: absolute;
-      top: -10px;
-      left: 15px;
-      font-size: 3.5rem;
-      font-family: 'Playfair Display', serif;
-      color: rgba(253, 224, 71, 0.25);
-      line-height: 1;
     }
 
     .letter-quote {
@@ -278,7 +237,7 @@
     .letter-seal {
       margin-top: 1rem;
       text-align: right;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 600;
       color: #fbbf24;
       letter-spacing: 1px;
@@ -286,7 +245,7 @@
 
     @keyframes floatBouquet {
       0% { transform: translateY(0px) rotate(0deg); }
-      100% { transform: translateY(-8px) rotate(1deg); }
+      100% { transform: translateY(-7px) rotate(1deg); }
     }
   </style>
 </head>
@@ -301,9 +260,9 @@
   <canvas id="fxCanvas"></canvas>
 
   <div class="wrapper">
-    <!-- Ramo SVG Vectorial Rico en Detalle -->
+    <!-- Ramo Grande con 7 Girasoles Vectoriales y Envoltorio -->
     <div class="bouquet-container" id="bouquetClick">
-      <svg class="bouquet-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class="bouquet-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="stemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stop-color="#143e26"/>
@@ -328,133 +287,102 @@
             <stop offset="70%" stop-color="#240c01"/>
             <stop offset="100%" stop-color="#140600"/>
           </radialGradient>
+
+          <!-- Papel de envoltorio (Kraft Bouquet) -->
+          <linearGradient id="wrapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#c29a6b"/>
+            <stop offset="50%" stop-color="#a07a4c"/>
+            <stop offset="100%" stop-color="#7c5c36"/>
+          </linearGradient>
+
+          <!-- Plantilla del Girasol Base -->
+          <g id="flowerBase">
+            <g>
+              <!-- 16 pétalos exteriores -->
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(0)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(22.5)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(45)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(67.5)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(90)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(112.5)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(135)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(157.5)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(180)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(202.5)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(225)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(247.5)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(270)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(292.5)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(315)"/>
+              <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(337.5)"/>
+
+              <!-- 16 pétalos interiores -->
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(11.25)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(33.75)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(56.25)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(78.75)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(101.25)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(123.75)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(146.25)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(168.75)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(191.25)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(213.75)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(236.25)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(258.75)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(281.25)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(303.75)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(326.25)"/>
+              <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(348.75)"/>
+            </g>
+            <circle cx="0" cy="0" r="26" fill="url(#centerCore)" stroke="#fde047" stroke-width="2" stroke-dasharray="3,2"/>
+            <text x="0" y="6" font-size="14" text-anchor="middle" fill="#fde047">🌻</text>
+          </g>
         </defs>
 
-        <!-- Tallos curvados -->
-        <path d="M200 230 Q 195 320 200 390" stroke="url(#stemGrad)" stroke-width="11" stroke-linecap="round"/>
-        <path d="M125 245 Q 140 315 190 380" stroke="url(#stemGrad)" stroke-width="8" stroke-linecap="round"/>
-        <path d="M275 245 Q 260 315 210 380" stroke="url(#stemGrad)" stroke-width="8" stroke-linecap="round"/>
-
-        <!-- Hojas estilizadas con nervaduras -->
-        <g id="leafLeft">
-          <path d="M175 320 Q 110 300 120 260 Q 155 270 180 305 Z" fill="#2d6a4f"/>
-          <path d="M175 320 Q 140 285 120 260" stroke="#52b788" stroke-width="1.8" fill="none"/>
-        </g>
-        <g id="leafRight">
-          <path d="M225 330 Q 290 310 280 270 Q 245 280 220 315 Z" fill="#2d6a4f"/>
-          <path d="M225 330 Q 260 295 280 270" stroke="#52b788" stroke-width="1.8" fill="none"/>
+        <!-- Tallos en abanico agrupados -->
+        <g stroke="url(#stemGrad)" stroke-linecap="round">
+          <path d="M250 220 L 250 460" stroke-width="10"/>
+          <path d="M190 200 Q 220 330 245 460" stroke-width="8"/>
+          <path d="M310 200 Q 280 330 255 460" stroke-width="8"/>
+          <path d="M130 230 Q 190 350 240 460" stroke-width="7"/>
+          <path d="M370 230 Q 310 350 260 460" stroke-width="7"/>
+          <path d="M210 130 L 248 460" stroke-width="8"/>
+          <path d="M290 130 L 252 460" stroke-width="8"/>
         </g>
 
-        <!-- Girasol Izquierdo -->
-        <g transform="translate(125, 235) scale(0.68)">
-          <g class="spin-flower">
-            <!-- Pétalos capa 1 -->
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(0)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(30)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(60)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(90)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(120)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(150)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(180)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(210)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(240)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(270)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(300)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(330)"/>
-
-            <!-- Pétalos capa 2 -->
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(15)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(45)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(75)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(105)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(135)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(165)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(195)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(225)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(255)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(285)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(315)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(345)"/>
-          </g>
-          <circle cx="0" cy="0" r="28" fill="url(#centerCore)" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3"/>
+        <!-- Follaje de fondo y hojas verdes -->
+        <g fill="#2d6a4f" opacity="0.95">
+          <path d="M120 280 Q 40 240 60 190 Q 110 210 135 260 Z"/>
+          <path d="M380 280 Q 460 240 440 190 Q 390 210 365 260 Z"/>
+          <path d="M160 350 Q 80 330 90 280 Q 140 290 170 330 Z"/>
+          <path d="M340 350 Q 420 330 410 280 Q 360 290 330 330 Z"/>
         </g>
 
-        <!-- Girasol Derecho -->
-        <g transform="translate(275, 235) scale(0.68)">
-          <g class="spin-flower">
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(0)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(30)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(60)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(90)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(120)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(150)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(180)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(210)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(240)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(270)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(300)"/>
-            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(330)"/>
+        <!-- CAPA 1 (Fondo): 2 Girasoles superiores -->
+        <use href="#flowerBase" transform="translate(195, 115) scale(0.72)"/>
+        <use href="#flowerBase" transform="translate(305, 115) scale(0.72)"/>
 
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(15)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(45)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(75)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(105)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(135)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(165)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(195)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(225)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(255)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(285)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(315)"/>
-            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(345)"/>
-          </g>
-          <circle cx="0" cy="0" r="28" fill="url(#centerCore)" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3"/>
-        </g>
+        <!-- CAPA 2 (Medio): 3 Girasoles intermedios -->
+        <use href="#flowerBase" transform="translate(125, 195) scale(0.75)"/>
+        <use href="#flowerBase" transform="translate(375, 195) scale(0.75)"/>
+        <use href="#flowerBase" transform="translate(250, 160) scale(0.85)"/>
 
-        <!-- Girasol Central Imperial -->
-        <g transform="translate(200, 160)">
-          <g class="spin-flower">
-            <!-- Capa externa 16 pétalos -->
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(0)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(22.5)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(45)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(67.5)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(90)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(112.5)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(135)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(157.5)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(180)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(202.5)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(225)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(247.5)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(270)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(292.5)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(315)"/>
-            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(337.5)"/>
+        <!-- CAPA 3 (Frente): 2 Girasoles protagonistas inferiores -->
+        <use href="#flowerBase" transform="translate(185, 235) scale(0.82)"/>
+        <use href="#flowerBase" transform="translate(315, 235) scale(0.82)"/>
 
-            <!-- Capa intermedia 16 pétalos -->
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(11.25)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(33.75)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(56.25)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(78.75)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(101.25)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(123.75)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(146.25)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(168.75)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(191.25)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(213.75)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(236.25)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(258.75)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(281.25)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(303.75)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(326.25)"/>
-            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(348.75)"/>
-          </g>
+        <!-- Envoltorio de ramo estilo Kraft con pliegues y lazo -->
+        <g id="bouquetWrapper">
+          <!-- Papel cono de fondo -->
+          <path d="M160 280 L 250 475 L 340 280 Q 250 310 160 280 Z" fill="url(#wrapGrad)" stroke="#5c4028" stroke-width="2"/>
+          <path d="M140 265 L 250 480 L 220 280 Z" fill="#b08554" opacity="0.4"/>
+          <path d="M360 265 L 250 480 L 280 280 Z" fill="#6d4b27" opacity="0.4"/>
 
-          <!-- Centro texturizado -->
-          <circle cx="0" cy="0" r="38" fill="url(#centerCore)" stroke="#fde047" stroke-width="2.5" stroke-dasharray="4,3"/>
-          <circle cx="0" cy="0" r="26" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="3,3"/>
-          <text x="0" y="7" font-size="20" text-anchor="middle" fill="#fde047">🌻</text>
+          <!-- Lazo y cinta dorada decorativa -->
+          <ellipse cx="250" cy="390" rx="20" ry="10" fill="#f59e0b" stroke="#fde047" stroke-width="2"/>
+          <path d="M240 395 Q 210 425 215 450" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M260 395 Q 290 425 285 450" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <circle cx="250" cy="390" r="5" fill="#fff275"/>
         </g>
       </svg>
     </div>
@@ -471,7 +399,7 @@
       </h1>
 
       <p class="intro-text">
-        Dicen que las flores amarillas representan la alegría, la luz incondicional y el deseo de permanecer siempre al lado de esa persona que hace que todo valga la pena. Hoy no podía dejar pasar este 21 de septiembre sin entregarte las más hermosas.
+        Dicen que regalar flores amarillas es desear luz infinita, sonrisas sinceras y prometer quedarse siempre con la persona amada. Hoy te entrego este gran ramo porque tu dulzura merece todo lo más hermoso de este mundo.
       </p>
 
       <button class="royal-btn" id="openLetterBtn">
@@ -485,7 +413,7 @@
             "Eres mi razón favorita para sonreír todos los días."
           </p>
           <p class="letter-sub">
-            Gracias por llenar mi mundo de tanta dulzura y luz. Prometo cuidarte, ser tu apoyo en cada paso, hacerte reír hasta en los días difíciles y recordarte siempre lo valiosa e increíble que eres para mí.
+            Gracias por iluminar mi camino y ser mi compañera especial. Prometo cuidarte, apoyarte en cada sueño y recordarte siempre lo única y maravillosa que eres para mí. ¡Feliz 21 de septiembre, My Princesa! &lt;3 :3
           </p>
           <div class="letter-seal">
             Para siempre juntos &lt;3 💛
@@ -519,7 +447,7 @@
     bouquet.addEventListener('click', (e) => {
       bouquet.animate([
         { transform: 'scale(1)' },
-        { transform: 'scale(1.1) rotate(2deg)' },
+        { transform: 'scale(1.08) rotate(2deg)' },
         { transform: 'scale(1)' }
       ], { duration: 340, easing: 'ease-out' });
 
@@ -541,7 +469,6 @@
     const particles = [];
     const colorPalette = ['#fff275', '#f59e0b', '#fbbf24', '#ffffff', '#fde68a'];
 
-    // Partículas ambientales continuas
     for (let i = 0; i < 45; i++) {
       particles.push({
         x: Math.random() * w,
@@ -661,16 +588,15 @@
       osc.stop(start + duration);
     }
 
-    // Progresión romántica (Sol mayor - Re - Mi menor - Do)
     const melodyChords = [
-      { f: 392.00, d: 0.6 }, // Sol (G4)
-      { f: 493.88, d: 0.6 }, // Si (B4)
-      { f: 587.33, d: 0.8 }, // Re (D5)
-      { f: 659.25, d: 0.9 }, // Mi (E5)
-      { f: 523.25, d: 0.7 }, // Do (C5)
-      { f: 493.88, d: 0.7 }, // Si (B4)
-      { f: 440.00, d: 1.2 }, // La (A4)
-      { f: 392.00, d: 1.4 }, // Sol (G4)
+      { f: 392.00, d: 0.6 },
+      { f: 493.88, d: 0.6 },
+      { f: 587.33, d: 0.8 },
+      { f: 659.25, d: 0.9 },
+      { f: 523.25, d: 0.7 },
+      { f: 493.88, d: 0.7 },
+      { f: 440.00, d: 1.2 },
+      { f: 392.00, d: 1.4 },
     ];
 
     function playArpeggio() {
@@ -687,7 +613,6 @@
 
       melodyChords.forEach((note, idx) => {
         playTone(note.f, startTime, note.d, 0.07);
-        // Nota base en los acordes clave
         if (idx === 0 || idx === 3 || idx === 4) {
           playTone(note.f / 2, startTime, note.d * 1.5, 0.04);
         }
