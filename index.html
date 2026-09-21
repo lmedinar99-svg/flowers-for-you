@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>21 de Septiembre 🌻 | Para Melisa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #080c14;
+      --yellow-bright: #ffea79;
+      --yellow-main: #f59e0b;
+      --yellow-deep: #b45309;
+      --center-brown: #3e1f07;
+      --leaf-color: #2d6a4f;
+      --leaf-light: #52b788;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      width: 100vw;
+      background: radial-gradient(circle at 50% 25%, #182238 0%, var(--bg-dark) 90%);
+      font-family: 'Montserrat', sans-serif;
+      color: #f8fafc;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    #ambientCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .audio-control {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .audio-control:hover {
+      transform: scale(1.1);
+      background: rgba(253, 224, 71, 0.2);
+    }
+
+    .audio-control svg {
+      width: 22px;
+      height: 22px;
+      fill: #fde047;
+    }
+
+    .main-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 480px;
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Ramo de Girasoles */
+    .bouquet {
+      position: relative;
+      width: 260px;
+      height: 270px;
+      margin-bottom: 1.2rem;
+      user-select: none;
+    }
+
+    .sunflower {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .sunflower.main {
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 160px;
+      height: 260px;
+      z-index: 4;
+    }
+
+    .sunflower.side-left {
+      bottom: 0;
+      left: 15px;
+      transform: rotate(-16deg) scale(0.75);
+      width: 140px;
+      height: 220px;
+      z-index: 2;
+      opacity: 0.9;
+    }
+
+    .sunflower.side-right {
+      bottom: 0;
+      right: 15px;
+      transform: rotate(16deg) scale(0.75);
+      width: 140px;
+      height: 220px;
+      z-index: 2;
+      opacity: 0.9;
+    }
+
+    .sunflower:hover {
+      filter: drop-shadow(0 0 16px rgba(253, 224, 71, 0.45));
+    }
+
+    .stem {
+      width: 8px;
+      background: linear-gradient(to right, #1f4e38, var(--leaf-color), #40916c);
+      border-radius: 4px;
+      position: absolute;
+      bottom: 0;
+    }
+
+    .main .stem { height: 160px; }
+    .side-left .stem, .side-right .stem { height: 140px; }
+
+    .leaf {
+      position: absolute;
+      width: 36px;
+      height: 18px;
+      background: var(--leaf-light);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .leaf.left {
+      bottom: 60px;
+      left: 50%;
+      border-radius: 0 50% 0 50%;
+      transform: translateX(-36px) rotate(-30deg);
+    }
+
+    .leaf.right {
+      bottom: 80px;
+      left: 50%;
+      border-radius: 50% 0 50% 0;
+      transform: rotate(30deg);
+    }
+
+    .flower-head {
+      position: absolute;
+      top: 10px;
+      width: 120px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: floatMotion 3.5s ease-in-out infinite alternate;
+    }
+
+    .petal {
+      position: absolute;
+      width: 26px;
+      height: 64px;
+      background: linear-gradient(180deg, var(--yellow-bright) 0%, var(--yellow-main) 60%, var(--yellow-deep) 100%);
+      border-radius: 50% 50% 20% 20%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+      transform-origin: bottom center;
+      top: -8px;
+    }
+
+    .petal.inner {
+      height: 52px;
+      width: 22px;
+      background: linear-gradient(180deg, #fff38a 0%, #fbbf24 60%, #b45309 100%);
+      top: -2px;
+      z-index: 2;
+    }
+
+    .center-disc {
+      position: absolute;
+      width: 54px;
+      height: 54px;
+      background: radial-gradient(circle, #5b2e0c 10%, #291204 90%);
+      border-radius: 50%;
+      box-shadow: inset 0 3px 6px rgba(0,0,0,0.85), 0 0 16px rgba(245, 158, 11, 0.4);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      border: 2px solid rgba(253, 224, 71, 0.45);
+    }
+
+    /* Tarjeta */
+    .glass-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 22px;
+      padding: 1.8rem 1.4rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .date-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #fde047;
+      background: rgba(253, 224, 71, 0.12);
+      border: 1px solid rgba(253, 224, 71, 0.3);
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 0.8rem;
+    }
+
+    h1 {
+      font-size: clamp(1.4rem, 5vw, 1.8rem);
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 0.8rem;
+    }
+
+    .letter-body {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #cbd5e1;
+      margin-bottom: 1.4rem;
+      font-weight: 300;
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, #fbbf24, #d97706);
+      border: none;
+      color: #0b0f19;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 10px 26px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.35);
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-action:hover {
+      transform: scale(1.04);
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.5);
+    }
+
+    #secretMessage {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-top: 0;
+      font-family: 'Caveat', cursive;
+      font-size: 1.45rem;
+      color: #fde047;
+      line-height: 1.4;
+    }
+
+    #secretMessage.show {
+      max-height: 170px;
+      opacity: 1;
+      margin-top: 1.2rem;
+      padding-top: 0.5rem;
+    }
+
+    @keyframes floatMotion {
+      from { transform: translateY(0px) rotate(-1deg); }
+      to { transform: translateY(-7px) rotate(1deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="audio-control" id="audioBtn" title="Música de fondo">
+    <svg id="musicIcon" viewBox="0 0 24 24">
+      <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+    </svg>
+  </div>
+
+  <canvas id="ambientCanvas"></canvas>
+
+  <div class="main-wrapper">
+    <div class="bouquet">
+      <div class="sunflower side-left" id="flowerLeft">
+        <div class="stem"></div>
+        <div class="leaf left"></div>
+        <div class="flower-head head-box">
+          <div class="center-disc">🌻</div>
+        </div>
+      </div>
+
+      <div class="sunflower side-right" id="flowerRight">
+        <div class="stem"></div>
+        <div class="leaf right"></div>
+        <div class="flower-head head-box">
+          <div class="center-disc">🌻</div>
+        </div>
+      </div>
+
+      <div class="sunflower main" id="flowerCenter">
+        <div class="stem"></div>
+        <div class="leaf left"></div>
+        <div class="leaf right"></div>
+        <div class="flower-head head-box">
+          <div class="center-disc">🌻</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <span class="date-tag">21 de Septiembre</span>
+      <h1>Para ti, Melisa 🌻</h1>
+      <p class="letter-body">
+        Dicen que regalar flores amarillas es prometer amor eterno, complicidad y felicidad. Hoy no podía dejar pasar este día sin entregarte las tuyas, porque entre millones de personas, tú eres quien ilumina mi mundo y le da color a cada uno de mis días.
+      </p>
+
+      <button class="btn-action" id="btnReveal">
+        <span>Toca aquí</span> ✨
+      </button>
+
+      <div id="secretMessage">
+        "Gracias por ser mi alegría diaria, Melisa. Prometo cuidarte, apoyarte y hacerte sonreír siempre. Eres mi persona favorita en todo el universo." 💛
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.head-box').forEach(head => {
+      const outerCount = 14;
+      const innerCount = 10;
+
+      for (let i = 0; i < outerCount; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        const angle = (360 / outerCount) * i;
+        petal.style.transform = `rotate(${angle}deg) translateY(-26px)`;
+        head.appendChild(petal);
+      }
+
+      for (let i = 0; i < innerCount; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal inner';
+        const angle = (360 / innerCount) * i + 18;
+        petal.style.transform = `rotate(${angle}deg) translateY(-22px)`;
+        head.appendChild(petal);
+      }
+    });
+
+    const btn = document.getElementById('btnReveal');
+    const msg = document.getElementById('secretMessage');
+
+    btn.addEventListener('click', () => {
+      msg.classList.toggle('show');
+      btn.innerHTML = msg.classList.contains('show') 
+        ? '<span>Para siempre juntos</span> 💛' 
+        : '<span>Toca aquí</span> ✨';
+      burstSparkles(window.innerWidth / 2, window.innerHeight / 2, 35);
+      startMelody();
+    });
+
+    document.querySelectorAll('.sunflower').forEach(flower => {
+      flower.addEventListener('click', (e) => {
+        flower.animate([
+          { transform: 'scale(1)' },
+          { transform: 'scale(1.1) rotate(3deg)' },
+          { transform: 'scale(1)' }
+        ], { duration: 320 });
+        burstSparkles(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 3, 20);
+        startMelody();
+      });
+    });
+
+    const canvas = document.getElementById('ambientCanvas');
+    const ctx = canvas.getContext('2d');
+    let w = canvas.width = window.innerWidth;
+    let h = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const colors = ['#fde047', '#f59e0b', '#fbbf24', '#ffffff', '#fed7aa'];
+
+    for (let i = 0; i < 45; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 2.8 + 1,
+        vy: Math.random() * 0.7 + 0.3,
+        vx: (Math.random() - 0.5) * 0.6,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        alpha: Math.random() * 0.6 + 0.2
+      });
+    }
+
+    function burstSparkles(x, y, count) {
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: x,
+          y: y,
+          r: Math.random() * 4 + 2,
+          vy: (Math.random() - 0.5) * 6,
+          vx: (Math.random() - 0.5) * 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1,
+          isBurst: true
+        });
+      }
+    }
+
+    function renderLoop() {
+      ctx.clearRect(0, 0, w, h);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.y += p.vy;
+        p.x += p.vx;
+
+        if (p.isBurst) {
+          p.alpha -= 0.02;
+          if (p.alpha <= 0) {
+            particles.splice(i, 1);
+            continue;
+          }
+        } else if (p.y > h) {
+          p.y = -10;
+          p.x = Math.random() * w;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+      requestAnimationFrame(renderLoop);
+    }
+    renderLoop();
+
+    let audioCtx = null;
+    let isPlaying = false;
+    let melodyTimeout = null;
+
+    function playNote(freq, start, duration) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, start);
+
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.08, start + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(start);
+      osc.stop(start + duration);
+    }
+
+    const melody = [
+      { f: 392.00, d: 0.6 },
+      { f: 440.00, d: 0.6 },
+      { f: 493.88, d: 0.6 },
+      { f: 587.33, d: 0.8 },
+      { f: 523.25, d: 0.6 },
+      { f: 493.88, d: 0.8 },
+      { f: 440.00, d: 1.0 },
+    ];
+
+    function startMelody() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      if (isPlaying) return;
+
+      isPlaying = true;
+      let time = audioCtx.currentTime + 0.1;
+      melody.forEach(note => {
+        playNote(note.f, time, note.d);
+        time += note.d * 0.85;
+      });
+
+      melodyTimeout = setTimeout(() => {
+        isPlaying = false;
+      }, (time - audioCtx.currentTime) * 1000);
+    }
+
+    document.getElementById('audioBtn').addEventListener('click', () => {
+      startMelody();
+      burstSparkles(window.innerWidth - 40, 40, 15);
+    });
+  </script>
+</body>
+</html>
