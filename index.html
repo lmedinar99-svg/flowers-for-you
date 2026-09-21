@@ -47,6 +47,7 @@
       z-index: 1;
     }
 
+    /* Botón flotante de música */
     .music-btn {
       position: fixed;
       top: 18px;
@@ -65,6 +66,7 @@
       cursor: pointer;
       box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
       transition: all 0.3s ease;
+      opacity: 0.85;
     }
 
     .music-btn:hover {
@@ -76,6 +78,17 @@
       width: 22px;
       height: 22px;
       fill: #fde047;
+    }
+
+    .music-btn.playing {
+      animation: pulseGlow 2s infinite alternate;
+      border-color: #fde047;
+      opacity: 1;
+    }
+
+    @keyframes pulseGlow {
+      from { box-shadow: 0 0 10px rgba(245, 158, 11, 0.4); }
+      to { box-shadow: 0 0 25px rgba(253, 224, 71, 0.8); }
     }
 
     .wrapper {
@@ -90,7 +103,7 @@
       text-align: center;
     }
 
-    /* Contenedor del Gran Ramo */
+    /* Ramo Grande de Girasoles */
     .bouquet-container {
       position: relative;
       width: 350px;
@@ -195,7 +208,7 @@
       box-shadow: 0 15px 35px rgba(245, 158, 11, 0.65);
     }
 
-    /* Carta Romántica Desplegable */
+    /* Carta Romántica */
     .letter-box {
       max-height: 0;
       opacity: 0;
@@ -251,7 +264,11 @@
 </head>
 <body>
 
-  <div class="music-btn" id="audioTrigger" title="Melodía para mi princesa">
+  <!-- Reproductor invisible de YouTube -->
+  <div id="ytAudioPlayer" style="position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></div>
+
+  <!-- Botón flotante para pausar/reanudar música -->
+  <div class="music-btn" id="audioTrigger" title="Canción para mi princesa">
     <svg viewBox="0 0 24 24">
       <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
     </svg>
@@ -288,17 +305,14 @@
             <stop offset="100%" stop-color="#140600"/>
           </radialGradient>
 
-          <!-- Papel de envoltorio (Kraft Bouquet) -->
           <linearGradient id="wrapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#c29a6b"/>
             <stop offset="50%" stop-color="#a07a4c"/>
             <stop offset="100%" stop-color="#7c5c36"/>
           </linearGradient>
 
-          <!-- Plantilla del Girasol Base -->
           <g id="flowerBase">
             <g>
-              <!-- 16 pétalos exteriores -->
               <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(0)"/>
               <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(22.5)"/>
               <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(45)"/>
@@ -316,7 +330,6 @@
               <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(315)"/>
               <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(337.5)"/>
 
-              <!-- 16 pétalos interiores -->
               <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(11.25)"/>
               <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(33.75)"/>
               <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(56.25)"/>
@@ -339,7 +352,6 @@
           </g>
         </defs>
 
-        <!-- Tallos en abanico agrupados -->
         <g stroke="url(#stemGrad)" stroke-linecap="round">
           <path d="M250 220 L 250 460" stroke-width="10"/>
           <path d="M190 200 Q 220 330 245 460" stroke-width="8"/>
@@ -350,7 +362,6 @@
           <path d="M290 130 L 252 460" stroke-width="8"/>
         </g>
 
-        <!-- Follaje de fondo y hojas verdes -->
         <g fill="#2d6a4f" opacity="0.95">
           <path d="M120 280 Q 40 240 60 190 Q 110 210 135 260 Z"/>
           <path d="M380 280 Q 460 240 440 190 Q 390 210 365 260 Z"/>
@@ -358,27 +369,19 @@
           <path d="M340 350 Q 420 330 410 280 Q 360 290 330 330 Z"/>
         </g>
 
-        <!-- CAPA 1 (Fondo): 2 Girasoles superiores -->
         <use href="#flowerBase" transform="translate(195, 115) scale(0.72)"/>
         <use href="#flowerBase" transform="translate(305, 115) scale(0.72)"/>
-
-        <!-- CAPA 2 (Medio): 3 Girasoles intermedios -->
         <use href="#flowerBase" transform="translate(125, 195) scale(0.75)"/>
         <use href="#flowerBase" transform="translate(375, 195) scale(0.75)"/>
         <use href="#flowerBase" transform="translate(250, 160) scale(0.85)"/>
-
-        <!-- CAPA 3 (Frente): 2 Girasoles protagonistas inferiores -->
         <use href="#flowerBase" transform="translate(185, 235) scale(0.82)"/>
         <use href="#flowerBase" transform="translate(315, 235) scale(0.82)"/>
 
-        <!-- Envoltorio de ramo estilo Kraft con pliegues y lazo -->
         <g id="bouquetWrapper">
-          <!-- Papel cono de fondo -->
           <path d="M160 280 L 250 475 L 340 280 Q 250 310 160 280 Z" fill="url(#wrapGrad)" stroke="#5c4028" stroke-width="2"/>
           <path d="M140 265 L 250 480 L 220 280 Z" fill="#b08554" opacity="0.4"/>
           <path d="M360 265 L 250 480 L 280 280 Z" fill="#6d4b27" opacity="0.4"/>
 
-          <!-- Lazo y cinta dorada decorativa -->
           <ellipse cx="250" cy="390" rx="20" ry="10" fill="#f59e0b" stroke="#fde047" stroke-width="2"/>
           <path d="M240 395 Q 210 425 215 450" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" fill="none"/>
           <path d="M260 395 Q 290 425 285 450" stroke="#f59e0b" stroke-width="4" stroke-linecap="round" fill="none"/>
@@ -387,7 +390,7 @@
       </svg>
     </div>
 
-    <!-- Tarjeta de Dedicatoria -->
+    <!-- Tarjeta Principal -->
     <div class="main-card">
       <div class="tag-chip">
         <span>🌻</span> 21 de Septiembre
@@ -406,7 +409,7 @@
         <span>Toca aquí mi princesa ✨</span>
       </button>
 
-      <!-- Mensaje desplegable estilo pergamino -->
+      <!-- Mensaje estilo pergamino -->
       <div class="letter-box" id="letterContent">
         <div class="letter-parchment">
           <p class="letter-quote">
@@ -424,7 +427,66 @@
   </div>
 
   <script>
-    // Interacción Carta y Botón
+    // --- INTEGRACIÓN YOUTUBE AUDIO API ---
+    let ytPlayer = null;
+    let isPlayingMusic = false;
+    const audioBtn = document.getElementById('audioTrigger');
+
+    // Carga asíncrona de la API de YouTube
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('ytAudioPlayer', {
+        height: '1',
+        width: '1',
+        videoId: '9y2MmlZ6mWk', // Let Me Love You
+        playerVars: {
+          'autoplay': 0,
+          'controls': 0,
+          'loop': 1,
+          'playlist': '9y2MmlZ6mWk',
+          'playsinline': 1
+        },
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        isPlayingMusic = true;
+        audioBtn.classList.add('playing');
+      } else {
+        isPlayingMusic = false;
+        audioBtn.classList.remove('playing');
+      }
+    }
+
+    function toggleAudio() {
+      if (!ytPlayer || !ytPlayer.playVideo) return;
+      if (isPlayingMusic) {
+        ytPlayer.pauseVideo();
+      } else {
+        ytPlayer.playVideo();
+        burstFireworks(window.innerWidth - 40, 40, 20, true);
+      }
+    }
+
+    audioBtn.addEventListener('click', toggleAudio);
+
+    let hasStartedAudio = false;
+    function triggerAudioOnAction() {
+      if (!hasStartedAudio && ytPlayer && ytPlayer.playVideo) {
+        ytPlayer.playVideo();
+        hasStartedAudio = true;
+      }
+    }
+
+    // --- INTERACCIÓN CARTA Y BOTÓN ---
     const openBtn = document.getElementById('openLetterBtn');
     const letter = document.getElementById('letterContent');
     let isRevealed = false;
@@ -439,10 +501,9 @@
       } else {
         openBtn.innerHTML = '<span>Toca aquí mi princesa ✨</span>';
       }
-      playArpeggio();
+      triggerAudioOnAction();
     });
 
-    // Toque en el Ramo
     const bouquet = document.getElementById('bouquetClick');
     bouquet.addEventListener('click', (e) => {
       bouquet.animate([
@@ -452,10 +513,10 @@
       ], { duration: 340, easing: 'ease-out' });
 
       burstFireworks(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 3, 30, false);
-      playArpeggio();
+      triggerAudioOnAction();
     });
 
-    // Animación de Canvas (Pétalos dorados 3D, corazones y destellos)
+    // --- CANVAS EFECTOS (PÉTALOS, CORAZONES Y DESTELLOS) ---
     const canvas = document.getElementById('fxCanvas');
     const ctx = canvas.getContext('2d');
     let w = canvas.width = window.innerWidth;
@@ -567,67 +628,6 @@
       requestAnimationFrame(animateFrame);
     }
     animateFrame();
-
-    // Melodía Arpegiada Armónica (Web Audio API)
-    let audioCtx = null;
-    let isPlayingAudio = false;
-
-    function playTone(freq, start, duration, gainVal = 0.08) {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, start);
-
-      gain.gain.setValueAtTime(0, start);
-      gain.gain.linearRampToValueAtTime(gainVal, start + 0.06);
-      gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start(start);
-      osc.stop(start + duration);
-    }
-
-    const melodyChords = [
-      { f: 392.00, d: 0.6 },
-      { f: 493.88, d: 0.6 },
-      { f: 587.33, d: 0.8 },
-      { f: 659.25, d: 0.9 },
-      { f: 523.25, d: 0.7 },
-      { f: 493.88, d: 0.7 },
-      { f: 440.00, d: 1.2 },
-      { f: 392.00, d: 1.4 },
-    ];
-
-    function playArpeggio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      if (isPlayingAudio) return;
-
-      isPlayingAudio = true;
-      let startTime = audioCtx.currentTime + 0.08;
-
-      melodyChords.forEach((note, idx) => {
-        playTone(note.f, startTime, note.d, 0.07);
-        if (idx === 0 || idx === 3 || idx === 4) {
-          playTone(note.f / 2, startTime, note.d * 1.5, 0.04);
-        }
-        startTime += note.d * 0.78;
-      });
-
-      setTimeout(() => {
-        isPlayingAudio = false;
-      }, (startTime - audioCtx.currentTime) * 1000);
-    }
-
-    document.getElementById('audioTrigger').addEventListener('click', () => {
-      playArpeggio();
-      burstFireworks(window.innerWidth - 40, 40, 20, true);
-    });
   </script>
 </body>
 </html>
