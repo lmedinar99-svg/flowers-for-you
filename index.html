@@ -47,48 +47,50 @@
       z-index: 1;
     }
 
-    /* Botón flotante de música */
-    .music-btn {
+    /* Reproductor flotante de audio/música */
+    .music-bar {
       position: fixed;
-      top: 18px;
-      right: 18px;
+      top: 15px;
+      right: 15px;
       z-index: 100;
-      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(13, 21, 39, 0.85);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(253, 224, 71, 0.35);
+      border: 1px solid rgba(253, 224, 71, 0.4);
+      padding: 6px 14px 6px 8px;
+      border-radius: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Iframe visible pero estilizado como mini reproductor */
+    .mini-player-box {
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      width: 48px;
-      height: 48px;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
-      transition: all 0.3s ease;
-      opacity: 0.85;
+      background: #000;
+      border: 1px solid rgba(253, 224, 71, 0.5);
     }
 
-    .music-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 25px rgba(253, 224, 71, 0.6);
+    .mini-player-box iframe {
+      width: 180px;
+      height: 180px;
+      transform: scale(0.35);
+      pointer-events: auto;
     }
 
-    .music-btn svg {
-      width: 22px;
-      height: 22px;
-      fill: #fde047;
-    }
-
-    .music-btn.playing {
-      animation: pulseGlow 2s infinite alternate;
-      border-color: #fde047;
-      opacity: 1;
-    }
-
-    @keyframes pulseGlow {
-      from { box-shadow: 0 0 10px rgba(245, 158, 11, 0.4); }
-      to { box-shadow: 0 0 25px rgba(253, 224, 71, 0.8); }
+    .music-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #fde047;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
     }
 
     .wrapper {
@@ -96,14 +98,14 @@
       z-index: 10;
       width: 100%;
       max-width: 520px;
-      padding: 1rem 1rem 2.8rem;
+      padding: 4.5rem 1rem 3rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
     }
 
-    /* Ramo Grande de Girasoles */
+    /* Ramo Grande de 7 Girasoles */
     .bouquet-container {
       position: relative;
       width: 350px;
@@ -208,7 +210,7 @@
       box-shadow: 0 15px 35px rgba(245, 158, 11, 0.65);
     }
 
-    /* Carta Romántica */
+    /* Carta Romántica Desplegable */
     .letter-box {
       max-height: 0;
       opacity: 0;
@@ -264,20 +266,23 @@
 </head>
 <body>
 
-  <!-- Reproductor invisible de YouTube -->
-  <div id="ytAudioPlayer" style="position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></div>
-
-  <!-- Botón flotante para pausar/reanudar música -->
-  <div class="music-btn" id="audioTrigger" title="Canción para mi princesa">
-    <svg viewBox="0 0 24 24">
-      <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-    </svg>
+  <!-- Barra de Música Oficial YouTube (Totalmente compatible y sin bloqueos) -->
+  <div class="music-bar">
+    <div class="mini-player-box">
+      <iframe 
+        id="ytIframe"
+        src="https://www.youtube.com/embed/9y2MmlZ6mWk?enablejsapi=1&playsinline=1&loop=1&playlist=9y2MmlZ6mWk" 
+        frameborder="0" 
+        allow="autoplay; encrypted-media">
+      </iframe>
+    </div>
+    <span class="music-label">Let Me Love You 🎵</span>
   </div>
 
   <canvas id="fxCanvas"></canvas>
 
   <div class="wrapper">
-    <!-- Ramo Grande con 7 Girasoles Vectoriales y Envoltorio -->
+    <!-- Ramo Grande de 7 Girasoles -->
     <div class="bouquet-container" id="bouquetClick">
       <svg class="bouquet-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -390,7 +395,7 @@
       </svg>
     </div>
 
-    <!-- Tarjeta Principal -->
+    <!-- Tarjeta de Dedicatoria -->
     <div class="main-card">
       <div class="tag-chip">
         <span>🌻</span> 21 de Septiembre
@@ -409,7 +414,6 @@
         <span>Toca aquí mi princesa ✨</span>
       </button>
 
-      <!-- Mensaje estilo pergamino -->
       <div class="letter-box" id="letterContent">
         <div class="letter-parchment">
           <p class="letter-quote">
@@ -427,66 +431,16 @@
   </div>
 
   <script>
-    // --- INTEGRACIÓN YOUTUBE AUDIO API ---
-    let ytPlayer = null;
-    let isPlayingMusic = false;
-    const audioBtn = document.getElementById('audioTrigger');
+    // Control del reproductor YouTube por postMessage (Compatible universal)
+    const ytIframe = document.getElementById('ytIframe');
 
-    // Carga asíncrona de la API de YouTube
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    function onYouTubeIframeAPIReady() {
-      ytPlayer = new YT.Player('ytAudioPlayer', {
-        height: '1',
-        width: '1',
-        videoId: '9y2MmlZ6mWk', // Let Me Love You
-        playerVars: {
-          'autoplay': 0,
-          'controls': 0,
-          'loop': 1,
-          'playlist': '9y2MmlZ6mWk',
-          'playsinline': 1
-        },
-        events: {
-          'onStateChange': onPlayerStateChange
-        }
-      });
-    }
-
-    function onPlayerStateChange(event) {
-      if (event.data === YT.PlayerState.PLAYING) {
-        isPlayingMusic = true;
-        audioBtn.classList.add('playing');
-      } else {
-        isPlayingMusic = false;
-        audioBtn.classList.remove('playing');
+    function playYouTubeSong() {
+      if (ytIframe && ytIframe.contentWindow) {
+        ytIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
       }
     }
 
-    function toggleAudio() {
-      if (!ytPlayer || !ytPlayer.playVideo) return;
-      if (isPlayingMusic) {
-        ytPlayer.pauseVideo();
-      } else {
-        ytPlayer.playVideo();
-        burstFireworks(window.innerWidth - 40, 40, 20, true);
-      }
-    }
-
-    audioBtn.addEventListener('click', toggleAudio);
-
-    let hasStartedAudio = false;
-    function triggerAudioOnAction() {
-      if (!hasStartedAudio && ytPlayer && ytPlayer.playVideo) {
-        ytPlayer.playVideo();
-        hasStartedAudio = true;
-      }
-    }
-
-    // --- INTERACCIÓN CARTA Y BOTÓN ---
+    // Interacción Carta y Botón
     const openBtn = document.getElementById('openLetterBtn');
     const letter = document.getElementById('letterContent');
     let isRevealed = false;
@@ -501,7 +455,7 @@
       } else {
         openBtn.innerHTML = '<span>Toca aquí mi princesa ✨</span>';
       }
-      triggerAudioOnAction();
+      playYouTubeSong();
     });
 
     const bouquet = document.getElementById('bouquetClick');
@@ -513,10 +467,10 @@
       ], { duration: 340, easing: 'ease-out' });
 
       burstFireworks(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 3, 30, false);
-      triggerAudioOnAction();
+      playYouTubeSong();
     });
 
-    // --- CANVAS EFECTOS (PÉTALOS, CORAZONES Y DESTELLOS) ---
+    // Efectos de Canvas (Pétalos y corazones dorados)
     const canvas = document.getElementById('fxCanvas');
     const ctx = canvas.getContext('2d');
     let w = canvas.width = window.innerWidth;
