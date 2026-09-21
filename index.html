@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,16 +6,14 @@
   <title>21 de Septiembre 🌻 | Para My Princesa <3</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-dark: #080c16;
-      --yellow-bright: #fff275;
-      --yellow-main: #f59e0b;
-      --yellow-deep: #b45309;
-      --leaf-color: #1e5a3c;
-      --leaf-light: #48bb78;
+      --bg-gradient: radial-gradient(circle at 50% 15%, #182642 0%, #0d1527 45%, #050811 100%);
+      --gold-primary: #f59e0b;
+      --gold-glow: #fde047;
+      --gold-light: #fffbeb;
     }
 
     * {
@@ -29,7 +26,7 @@
       min-height: 100vh;
       min-height: 100dvh;
       width: 100vw;
-      background: radial-gradient(circle at 50% 20%, #1a253d 0%, #0c1220 50%, var(--bg-dark) 95%);
+      background: var(--bg-gradient);
       font-family: 'Montserrat', sans-serif;
       color: #f8fafc;
       overflow-x: hidden;
@@ -40,8 +37,8 @@
       position: relative;
     }
 
-    /* Fondo dinámico Canvas */
-    #ambientCanvas {
+    /* Lienzo de pétalos y estrellas */
+    #fxCanvas {
       position: fixed;
       top: 0;
       left: 0;
@@ -52,15 +49,15 @@
     }
 
     /* Botón flotante de música */
-    .audio-control {
+    .music-btn {
       position: fixed;
-      top: 20px;
-      right: 20px;
+      top: 18px;
+      right: 18px;
       z-index: 100;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(253, 224, 71, 0.4);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(253, 224, 71, 0.35);
       border-radius: 50%;
       width: 48px;
       height: 48px;
@@ -68,398 +65,470 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+      transition: all 0.3s ease;
     }
 
-    .audio-control:hover {
-      transform: scale(1.12);
-      background: rgba(253, 224, 71, 0.25);
+    .music-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 25px rgba(253, 224, 71, 0.6);
     }
 
-    .audio-control svg {
+    .music-btn svg {
       width: 22px;
       height: 22px;
       fill: #fde047;
     }
 
-    .main-wrapper {
+    .wrapper {
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 500px;
-      padding: 1.5rem 1rem 2.5rem;
+      max-width: 520px;
+      padding: 1.5rem 1rem 3rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
     }
 
-    /* Ramo Escultural de Flores */
-    .bouquet {
+    /* Ramo Escultórico SVG */
+    .bouquet-container {
       position: relative;
-      width: 280px;
-      height: 280px;
-      margin-bottom: 1.2rem;
+      width: 320px;
+      height: 310px;
+      margin-bottom: 0.8rem;
+      cursor: pointer;
       user-select: none;
     }
 
-    .sunflower {
-      position: absolute;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    .sunflower.main {
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 170px;
-      height: 270px;
-      z-index: 4;
-    }
-
-    .sunflower.side-left {
-      bottom: 0;
-      left: 10px;
-      transform: rotate(-18deg) scale(0.78);
-      width: 140px;
-      height: 230px;
-      z-index: 2;
-      opacity: 0.95;
-    }
-
-    .sunflower.side-right {
-      bottom: 0;
-      right: 10px;
-      transform: rotate(18deg) scale(0.78);
-      width: 140px;
-      height: 230px;
-      z-index: 2;
-      opacity: 0.95;
-    }
-
-    .sunflower:hover {
-      filter: drop-shadow(0 0 20px rgba(253, 224, 71, 0.6));
-    }
-
-    .stem {
-      width: 9px;
-      background: linear-gradient(to right, #1b4332, var(--leaf-color), #40916c);
-      border-radius: 5px;
-      position: absolute;
-      bottom: 0;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-    }
-
-    .main .stem { height: 165px; }
-    .side-left .stem, .side-right .stem { height: 145px; }
-
-    .leaf {
-      position: absolute;
-      width: 42px;
-      height: 22px;
-      background: linear-gradient(135deg, var(--leaf-light), #2d6a4f);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
-
-    .leaf.left {
-      bottom: 65px;
-      left: 50%;
-      border-radius: 0 50% 0 50%;
-      transform: translateX(-42px) rotate(-32deg);
-    }
-
-    .leaf.right {
-      bottom: 90px;
-      left: 50%;
-      border-radius: 50% 0 50% 0;
-      transform: rotate(32deg);
-    }
-
-    .flower-head {
-      position: absolute;
-      top: 10px;
-      width: 130px;
-      height: 130px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: floatMotion 3.8s ease-in-out infinite alternate;
-    }
-
-    .petal {
-      position: absolute;
-      width: 28px;
-      height: 68px;
-      background: linear-gradient(180deg, var(--yellow-bright) 0%, var(--yellow-main) 60%, var(--yellow-deep) 100%);
-      border-radius: 50% 50% 20% 20%;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      transform-origin: bottom center;
-      top: -10px;
-    }
-
-    .petal.inner {
-      height: 54px;
-      width: 22px;
-      background: linear-gradient(180deg, #fff7a1 0%, #fbbf24 65%, #b45309 100%);
-      top: -4px;
-      z-index: 2;
-    }
-
-    .petal.core-petal {
-      height: 40px;
-      width: 16px;
-      background: linear-gradient(180deg, #ffe58f 0%, #f59e0b 80%, #78350f 100%);
-      top: 4px;
-      z-index: 3;
-    }
-
-    .center-disc {
-      position: absolute;
-      width: 58px;
-      height: 58px;
-      background: radial-gradient(circle, #542b08 10%, #2b1402 90%);
-      border-radius: 50%;
-      box-shadow: inset 0 3px 8px rgba(0,0,0,0.9), 0 0 20px rgba(245, 158, 11, 0.5);
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.35rem;
-      border: 2px dashed rgba(253, 224, 71, 0.45);
-    }
-
-    .glass-card {
+    .bouquet-svg {
       width: 100%;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 26px;
-      padding: 2rem 1.6rem;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      height: 100%;
+      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.65));
+      animation: floatBouquet 4s ease-in-out infinite alternate;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .bouquet-container:hover .bouquet-svg {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.4));
+    }
+
+    /* Tarjeta Principal */
+    .main-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 28px;
+      padding: 2.2rem 1.8rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
       position: relative;
       overflow: hidden;
     }
 
-    .glass-card::before {
+    .main-card::before {
       content: '';
       position: absolute;
-      top: 0;
+      top: -50%;
       left: -50%;
       width: 200%;
-      height: 100%;
-      background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-      transform: rotate(25deg);
+      height: 200%;
+      background: radial-gradient(circle, rgba(253, 224, 71, 0.08) 0%, transparent 60%);
       pointer-events: none;
     }
 
-    .date-tag {
+    .tag-chip {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
       font-size: 0.76rem;
       font-weight: 700;
-      text-transform: uppercase;
       letter-spacing: 2px;
       color: #fde047;
       background: rgba(253, 224, 71, 0.12);
       border: 1px solid rgba(253, 224, 71, 0.35);
-      padding: 5px 16px;
+      padding: 6px 18px;
       border-radius: 30px;
-      margin-bottom: 1rem;
+      margin-bottom: 1.1rem;
+      text-transform: uppercase;
     }
 
     h1 {
-      font-size: clamp(1.45rem, 5.5vw, 1.95rem);
-      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 5.5vw, 2.2rem);
+      font-weight: 600;
       color: #ffffff;
-      margin-bottom: 0.9rem;
-      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+      line-height: 1.25;
     }
 
-    .h1-highlight {
-      background: linear-gradient(135deg, #fff275 0%, #f59e0b 100%);
+    .highlight-name {
+      display: block;
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2rem, 7vw, 2.7rem);
+      background: linear-gradient(135deg, #fff275 0%, #f59e0b 60%, #fbbf24 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+      text-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+      margin-top: 4px;
     }
 
-    .letter-body {
-      font-size: 0.98rem;
+    .intro-text {
+      font-size: 0.96rem;
       line-height: 1.75;
       color: #cbd5e1;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.8rem;
       font-weight: 300;
     }
 
-    .btn-action {
-      background: linear-gradient(135deg, #fbbf24, #d97706);
+    /* Botón Prémium */
+    .royal-btn {
+      position: relative;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
       border: none;
-      color: #080c16;
+      color: #050811;
+      font-family: 'Montserrat', sans-serif;
       font-weight: 700;
-      font-size: 0.96rem;
-      padding: 12px 28px;
-      border-radius: 30px;
+      font-size: 0.98rem;
+      padding: 14px 34px;
+      border-radius: 40px;
       cursor: pointer;
-      box-shadow: 0 8px 22px rgba(245, 158, 11, 0.4);
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.45);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      overflow: hidden;
     }
 
-    .btn-action:hover {
-      transform: scale(1.05);
-      box-shadow: 0 10px 28px rgba(245, 158, 11, 0.6);
+    .royal-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transform: skewX(-20deg);
+      transition: 0.6s;
     }
 
-    #secretMessage {
+    .royal-btn:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 15px 35px rgba(245, 158, 11, 0.65);
+    }
+
+    .royal-btn:hover::after {
+      left: 140%;
+    }
+
+    /* Carta Romántica Desplegable */
+    .letter-box {
       max-height: 0;
       opacity: 0;
       overflow: hidden;
-      transition: all 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.75s cubic-bezier(0.4, 0, 0.2, 1);
       margin-top: 0;
-      font-family: 'Caveat', cursive;
+      text-align: left;
+    }
+
+    .letter-box.revealed {
+      max-height: 380px;
+      opacity: 1;
+      margin-top: 1.8rem;
+    }
+
+    .letter-parchment {
+      background: linear-gradient(145deg, rgba(255, 251, 235, 0.08), rgba(245, 158, 11, 0.04));
+      border: 1px solid rgba(253, 224, 71, 0.3);
+      border-radius: 18px;
+      padding: 1.6rem;
+      position: relative;
+    }
+
+    .letter-parchment::before {
+      content: '“';
+      position: absolute;
+      top: -10px;
+      left: 15px;
+      font-size: 3.5rem;
+      font-family: 'Playfair Display', serif;
+      color: rgba(253, 224, 71, 0.25);
+      line-height: 1;
+    }
+
+    .letter-quote {
+      font-family: 'Dancing Script', cursive;
       font-size: 1.55rem;
       color: #fde047;
       line-height: 1.45;
+      margin-bottom: 0.8rem;
     }
 
-    #secretMessage.show {
-      max-height: 200px;
-      opacity: 1;
-      margin-top: 1.3rem;
-      padding-top: 0.8rem;
-      border-top: 1px dashed rgba(253, 224, 71, 0.3);
+    .letter-sub {
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      line-height: 1.6;
+      font-weight: 300;
     }
 
-    @keyframes floatMotion {
-      from { transform: translateY(0px) rotate(-1.5deg); }
-      to { transform: translateY(-8px) rotate(1.5deg); }
+    .letter-seal {
+      margin-top: 1rem;
+      text-align: right;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #fbbf24;
+      letter-spacing: 1px;
+    }
+
+    @keyframes floatBouquet {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-8px) rotate(1deg); }
     }
   </style>
 </head>
 <body>
 
-  <div class="audio-control" id="audioBtn" title="Toca para música de fondo">
-    <svg id="musicIcon" viewBox="0 0 24 24">
+  <div class="music-btn" id="audioTrigger" title="Melodía para mi princesa">
+    <svg viewBox="0 0 24 24">
       <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
     </svg>
   </div>
 
-  <canvas id="ambientCanvas"></canvas>
+  <canvas id="fxCanvas"></canvas>
 
-  <div class="main-wrapper">
-    <div class="bouquet">
-      <div class="sunflower side-left" id="flowerLeft">
-        <div class="stem"></div>
-        <div class="leaf left"></div>
-        <div class="flower-head head-box">
-          <div class="center-disc">🌻</div>
-        </div>
-      </div>
+  <div class="wrapper">
+    <!-- Ramo SVG Vectorial Rico en Detalle -->
+    <div class="bouquet-container" id="bouquetClick">
+      <svg class="bouquet-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="stemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#143e26"/>
+            <stop offset="50%" stop-color="#2d6a4f"/>
+            <stop offset="100%" stop-color="#52b788"/>
+          </linearGradient>
 
-      <div class="sunflower side-right" id="flowerRight">
-        <div class="stem"></div>
-        <div class="leaf right"></div>
-        <div class="flower-head head-box">
-          <div class="center-disc">🌻</div>
-        </div>
-      </div>
+          <linearGradient id="petalGrad1" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#b45309"/>
+            <stop offset="55%" stop-color="#f59e0b"/>
+            <stop offset="100%" stop-color="#fff275"/>
+          </linearGradient>
 
-      <div class="sunflower main" id="flowerCenter">
-        <div class="stem"></div>
-        <div class="leaf left"></div>
-        <div class="leaf right"></div>
-        <div class="flower-head head-box">
-          <div class="center-disc">🌻</div>
-        </div>
-      </div>
+          <linearGradient id="petalGrad2" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#d97706"/>
+            <stop offset="60%" stop-color="#fbbf24"/>
+            <stop offset="100%" stop-color="#fffbeb"/>
+          </linearGradient>
+
+          <radialGradient id="centerCore" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#3d1803"/>
+            <stop offset="70%" stop-color="#240c01"/>
+            <stop offset="100%" stop-color="#140600"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Tallos curvados -->
+        <path d="M200 230 Q 195 320 200 390" stroke="url(#stemGrad)" stroke-width="11" stroke-linecap="round"/>
+        <path d="M125 245 Q 140 315 190 380" stroke="url(#stemGrad)" stroke-width="8" stroke-linecap="round"/>
+        <path d="M275 245 Q 260 315 210 380" stroke="url(#stemGrad)" stroke-width="8" stroke-linecap="round"/>
+
+        <!-- Hojas estilizadas con nervaduras -->
+        <g id="leafLeft">
+          <path d="M175 320 Q 110 300 120 260 Q 155 270 180 305 Z" fill="#2d6a4f"/>
+          <path d="M175 320 Q 140 285 120 260" stroke="#52b788" stroke-width="1.8" fill="none"/>
+        </g>
+        <g id="leafRight">
+          <path d="M225 330 Q 290 310 280 270 Q 245 280 220 315 Z" fill="#2d6a4f"/>
+          <path d="M225 330 Q 260 295 280 270" stroke="#52b788" stroke-width="1.8" fill="none"/>
+        </g>
+
+        <!-- Girasol Izquierdo -->
+        <g transform="translate(125, 235) scale(0.68)">
+          <g class="spin-flower">
+            <!-- Pétalos capa 1 -->
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(0)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(30)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(60)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(90)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(120)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(150)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(180)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(210)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(240)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(270)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(300)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(330)"/>
+
+            <!-- Pétalos capa 2 -->
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(15)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(45)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(75)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(105)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(135)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(165)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(195)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(225)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(255)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(285)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(315)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(345)"/>
+          </g>
+          <circle cx="0" cy="0" r="28" fill="url(#centerCore)" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3"/>
+        </g>
+
+        <!-- Girasol Derecho -->
+        <g transform="translate(275, 235) scale(0.68)">
+          <g class="spin-flower">
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(0)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(30)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(60)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(90)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(120)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(150)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(180)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(210)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(240)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(270)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(300)"/>
+            <path d="M0 -75 C10 -55 12 -20 0 0 C-12 -20 -10 -55 0 -75 Z" fill="url(#petalGrad1)" transform="rotate(330)"/>
+
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(15)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(45)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(75)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(105)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(135)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(165)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(195)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(225)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(255)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(285)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(315)"/>
+            <path d="M0 -60 C8 -45 10 -15 0 0 C-10 -15 -8 -45 0 -60 Z" fill="url(#petalGrad2)" transform="rotate(345)"/>
+          </g>
+          <circle cx="0" cy="0" r="28" fill="url(#centerCore)" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3"/>
+        </g>
+
+        <!-- Girasol Central Imperial -->
+        <g transform="translate(200, 160)">
+          <g class="spin-flower">
+            <!-- Capa externa 16 pétalos -->
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(0)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(22.5)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(45)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(67.5)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(90)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(112.5)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(135)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(157.5)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(180)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(202.5)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(225)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(247.5)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(270)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(292.5)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(315)"/>
+            <path d="M0 -105 C14 -75 16 -25 0 0 C-16 -25 -14 -75 0 -105 Z" fill="url(#petalGrad1)" transform="rotate(337.5)"/>
+
+            <!-- Capa intermedia 16 pétalos -->
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(11.25)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(33.75)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(56.25)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(78.75)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(101.25)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(123.75)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(146.25)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(168.75)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(191.25)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(213.75)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(236.25)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(258.75)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(281.25)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(303.75)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(326.25)"/>
+            <path d="M0 -85 C11 -60 13 -20 0 0 C-13 -20 -11 -60 0 -85 Z" fill="url(#petalGrad2)" transform="rotate(348.75)"/>
+          </g>
+
+          <!-- Centro texturizado -->
+          <circle cx="0" cy="0" r="38" fill="url(#centerCore)" stroke="#fde047" stroke-width="2.5" stroke-dasharray="4,3"/>
+          <circle cx="0" cy="0" r="26" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="3,3"/>
+          <text x="0" y="7" font-size="20" text-anchor="middle" fill="#fde047">🌻</text>
+        </g>
+      </svg>
     </div>
 
-    <div class="glass-card">
-      <div class="date-tag">
+    <!-- Tarjeta de Dedicatoria -->
+    <div class="main-card">
+      <div class="tag-chip">
         <span>🌻</span> 21 de Septiembre
       </div>
 
-      <h1>Para ti: <span class="h1-highlight">My Princesa &lt;3 :3</span></h1>
-      
-      <p class="letter-body">
-        Dicen que el 21 de septiembre se regalan flores amarillas para prometer amor sincero, felicidad compartida y complicidad eterna. Hoy estas flores son todas para ti, porque no hay sonrisa más hermosa en este mundo que la tuya ni luz que ilumine más mis días.
+      <h1>
+        Para ti:
+        <span class="highlight-name">My Princesa &lt;3 :3</span>
+      </h1>
+
+      <p class="intro-text">
+        Dicen que las flores amarillas representan la alegría, la luz incondicional y el deseo de permanecer siempre al lado de esa persona que hace que todo valga la pena. Hoy no podía dejar pasar este 21 de septiembre sin entregarte las más hermosas.
       </p>
 
-      <button class="btn-action" id="btnReveal">
-        <span>Toca aquí princesa</span> ✨
+      <button class="royal-btn" id="openLetterBtn">
+        <span>Toca aquí mi princesa ✨</span>
       </button>
 
-      <div id="secretMessage">
-        "Prometo acompañarte en cada sueño, cuidarte, apoyarte y recordarte cada día lo maravillosa y única que eres. ¡Feliz 21 de septiembre, My Princesa! &lt;3" 💛
+      <!-- Mensaje desplegable estilo pergamino -->
+      <div class="letter-box" id="letterContent">
+        <div class="letter-parchment">
+          <p class="letter-quote">
+            "Eres mi razón favorita para sonreír todos los días."
+          </p>
+          <p class="letter-sub">
+            Gracias por llenar mi mundo de tanta dulzura y luz. Prometo cuidarte, ser tu apoyo en cada paso, hacerte reír hasta en los días difíciles y recordarte siempre lo valiosa e increíble que eres para mí.
+          </p>
+          <div class="letter-seal">
+            Para siempre juntos &lt;3 💛
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    document.querySelectorAll('.head-box').forEach(head => {
-      const outerCount = 16;
-      const innerCount = 12;
-      const coreCount = 8;
+    // Interacción Carta y Botón
+    const openBtn = document.getElementById('openLetterBtn');
+    const letter = document.getElementById('letterContent');
+    let isRevealed = false;
 
-      for (let i = 0; i < outerCount; i++) {
-        const petal = document.createElement('div');
-        petal.className = 'petal';
-        const angle = (360 / outerCount) * i;
-        petal.style.transform = `rotate(${angle}deg) translateY(-28px)`;
-        head.appendChild(petal);
-      }
+    openBtn.addEventListener('click', () => {
+      isRevealed = !isRevealed;
+      letter.classList.toggle('revealed', isRevealed);
 
-      for (let i = 0; i < innerCount; i++) {
-        const petal = document.createElement('div');
-        petal.className = 'petal inner';
-        const angle = (360 / innerCount) * i + 15;
-        petal.style.transform = `rotate(${angle}deg) translateY(-22px)`;
-        head.appendChild(petal);
+      if (isRevealed) {
+        openBtn.innerHTML = '<span>Guardado en mi corazón 💛</span>';
+        burstFireworks(window.innerWidth / 2, window.innerHeight / 2, 55, true);
+      } else {
+        openBtn.innerHTML = '<span>Toca aquí mi princesa ✨</span>';
       }
-
-      for (let i = 0; i < coreCount; i++) {
-        const petal = document.createElement('div');
-        petal.className = 'petal core-petal';
-        const angle = (360 / coreCount) * i + 25;
-        petal.style.transform = `rotate(${angle}deg) translateY(-16px)`;
-        head.appendChild(petal);
-      }
+      playArpeggio();
     });
 
-    const btn = document.getElementById('btnReveal');
-    const msg = document.getElementById('secretMessage');
+    // Toque en el Ramo
+    const bouquet = document.getElementById('bouquetClick');
+    bouquet.addEventListener('click', (e) => {
+      bouquet.animate([
+        { transform: 'scale(1)' },
+        { transform: 'scale(1.1) rotate(2deg)' },
+        { transform: 'scale(1)' }
+      ], { duration: 340, easing: 'ease-out' });
 
-    btn.addEventListener('click', () => {
-      msg.classList.toggle('show');
-      btn.innerHTML = msg.classList.contains('show') 
-        ? '<span>Siempre juntos &lt;3</span> 💛' 
-        : '<span>Toca aquí princesa</span> ✨';
-      burstSparkles(window.innerWidth / 2, window.innerHeight / 2, 45, true);
-      startMelody();
+      burstFireworks(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 3, 30, false);
+      playArpeggio();
     });
 
-    document.querySelectorAll('.sunflower').forEach(flower => {
-      flower.addEventListener('click', (e) => {
-        flower.animate([
-          { transform: 'scale(1)' },
-          { transform: 'scale(1.12) rotate(4deg)' },
-          { transform: 'scale(1)' }
-        ], { duration: 320 });
-        burstSparkles(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 3, 25, false);
-        startMelody();
-      });
-    });
-
-    const canvas = document.getElementById('ambientCanvas');
+    // Animación de Canvas (Pétalos dorados 3D, corazones y destellos)
+    const canvas = document.getElementById('fxCanvas');
     const ctx = canvas.getContext('2d');
     let w = canvas.width = window.innerWidth;
     let h = canvas.height = window.innerHeight;
@@ -470,35 +539,52 @@
     });
 
     const particles = [];
-    const colors = ['#fff275', '#f59e0b', '#fbbf24', '#ffffff', '#fde68a'];
+    const colorPalette = ['#fff275', '#f59e0b', '#fbbf24', '#ffffff', '#fde68a'];
 
-    for (let i = 0; i < 50; i++) {
+    // Partículas ambientales continuas
+    for (let i = 0; i < 45; i++) {
       particles.push({
         x: Math.random() * w,
         y: Math.random() * h,
-        r: Math.random() * 2.6 + 1.2,
+        size: Math.random() * 3 + 1,
         vy: Math.random() * 0.7 + 0.3,
         vx: (Math.random() - 0.5) * 0.5,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        alpha: Math.random() * 0.6 + 0.25,
-        type: 'spark'
+        color: colorPalette[Math.floor(Math.random() * colorPalette.length)],
+        alpha: Math.random() * 0.6 + 0.2,
+        rot: Math.random() * 360,
+        vRot: (Math.random() - 0.5) * 2,
+        type: 'sparkle'
       });
     }
 
-    function burstSparkles(x, y, count, includeHearts) {
-      for (let i = 0; i < count; i++) {
+    function burstFireworks(x, y, total, withHearts) {
+      for (let i = 0; i < total; i++) {
         particles.push({
           x: x,
           y: y,
-          r: Math.random() * 4 + 2,
-          vy: (Math.random() - 0.5) * 7,
-          vx: (Math.random() - 0.5) * 7,
-          color: colors[Math.floor(Math.random() * colors.length)],
+          size: Math.random() * 5 + 2.5,
+          vy: (Math.random() - 0.5) * 8,
+          vx: (Math.random() - 0.5) * 8,
+          color: colorPalette[Math.floor(Math.random() * colorPalette.length)],
           alpha: 1,
+          rot: Math.random() * 360,
+          vRot: (Math.random() - 0.5) * 6,
           isBurst: true,
-          type: (includeHearts && Math.random() > 0.5) ? 'heart' : 'spark'
+          type: (withHearts && Math.random() > 0.45) ? 'heart' : 'petal'
         });
       }
+    }
+
+    function drawPetal(x, y, size, rot, color, alpha) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(x, y);
+      ctx.rotate((rot * Math.PI) / 180);
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, size * 0.6, size * 1.5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
     }
 
     function drawHeart(x, y, size, color, alpha) {
@@ -507,62 +593,66 @@
       ctx.fillStyle = color;
       ctx.translate(x, y);
       ctx.beginPath();
-      const topCurveHeight = size * 0.3;
-      ctx.moveTo(0, topCurveHeight);
-      ctx.bezierCurveTo(0, 0, -size / 2, 0, -size / 2, topCurveHeight);
-      ctx.bezierCurveTo(-size / 2, (size + topCurveHeight) / 2, 0, size, 0, size * 1.3);
-      ctx.bezierCurveTo(0, size, size / 2, (size + topCurveHeight) / 2, size / 2, topCurveHeight);
-      ctx.bezierCurveTo(size / 2, 0, 0, 0, 0, topCurveHeight);
+      const top = size * 0.3;
+      ctx.moveTo(0, top);
+      ctx.bezierCurveTo(0, 0, -size / 2, 0, -size / 2, top);
+      ctx.bezierCurveTo(-size / 2, (size + top) / 2, 0, size, 0, size * 1.3);
+      ctx.bezierCurveTo(0, size, size / 2, (size + top) / 2, size / 2, top);
+      ctx.bezierCurveTo(size / 2, 0, 0, 0, 0, top);
       ctx.closePath();
       ctx.fill();
       ctx.restore();
     }
 
-    function renderLoop() {
+    function animateFrame() {
       ctx.clearRect(0, 0, w, h);
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
         p.y += p.vy;
         p.x += p.vx;
+        p.rot += p.vRot;
 
         if (p.isBurst) {
-          p.alpha -= 0.018;
+          p.alpha -= 0.016;
           if (p.alpha <= 0) {
             particles.splice(i, 1);
             continue;
           }
-        } else if (p.y > h) {
+        } else if (p.y > h + 20) {
           p.y = -10;
           p.x = Math.random() * w;
         }
 
         if (p.type === 'heart') {
-          drawHeart(p.x, p.y, p.r * 2.2, p.color, p.alpha);
+          drawHeart(p.x, p.y, p.size * 2, p.color, p.alpha);
+        } else if (p.type === 'petal') {
+          drawPetal(p.x, p.y, p.size, p.rot, p.color, p.alpha);
         } else {
           ctx.save();
           ctx.globalAlpha = p.alpha;
           ctx.fillStyle = p.color;
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
           ctx.fill();
           ctx.restore();
         }
       }
-      requestAnimationFrame(renderLoop);
+      requestAnimationFrame(animateFrame);
     }
-    renderLoop();
+    animateFrame();
 
+    // Melodía Arpegiada Armónica (Web Audio API)
     let audioCtx = null;
-    let isPlaying = false;
+    let isPlayingAudio = false;
 
-    function playNote(freq, start, duration) {
+    function playTone(freq, start, duration, gainVal = 0.08) {
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-      osc.type = 'sine';
+      osc.type = 'triangle';
       osc.frequency.setValueAtTime(freq, start);
 
       gain.gain.setValueAtTime(0, start);
-      gain.gain.linearRampToValueAtTime(0.09, start + 0.08);
+      gain.gain.linearRampToValueAtTime(gainVal, start + 0.06);
       gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
 
       osc.connect(gain);
@@ -571,40 +661,47 @@
       osc.stop(start + duration);
     }
 
-    const romanticMelody = [
-      { f: 392.00, d: 0.6 },
-      { f: 440.00, d: 0.6 },
-      { f: 493.88, d: 0.6 },
-      { f: 587.33, d: 0.8 },
-      { f: 523.25, d: 0.6 },
-      { f: 493.88, d: 0.8 },
-      { f: 440.00, d: 1.1 },
+    // Progresión romántica (Sol mayor - Re - Mi menor - Do)
+    const melodyChords = [
+      { f: 392.00, d: 0.6 }, // Sol (G4)
+      { f: 493.88, d: 0.6 }, // Si (B4)
+      { f: 587.33, d: 0.8 }, // Re (D5)
+      { f: 659.25, d: 0.9 }, // Mi (E5)
+      { f: 523.25, d: 0.7 }, // Do (C5)
+      { f: 493.88, d: 0.7 }, // Si (B4)
+      { f: 440.00, d: 1.2 }, // La (A4)
+      { f: 392.00, d: 1.4 }, // Sol (G4)
     ];
 
-    function startMelody() {
+    function playArpeggio() {
       if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       }
       if (audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
-      if (isPlaying) return;
+      if (isPlayingAudio) return;
 
-      isPlaying = true;
-      let time = audioCtx.currentTime + 0.1;
-      romanticMelody.forEach(note => {
-        playNote(note.f, time, note.d);
-        time += note.d * 0.85;
+      isPlayingAudio = true;
+      let startTime = audioCtx.currentTime + 0.08;
+
+      melodyChords.forEach((note, idx) => {
+        playTone(note.f, startTime, note.d, 0.07);
+        // Nota base en los acordes clave
+        if (idx === 0 || idx === 3 || idx === 4) {
+          playTone(note.f / 2, startTime, note.d * 1.5, 0.04);
+        }
+        startTime += note.d * 0.78;
       });
 
       setTimeout(() => {
-        isPlaying = false;
-      }, (time - audioCtx.currentTime) * 1000);
+        isPlayingAudio = false;
+      }, (startTime - audioCtx.currentTime) * 1000);
     }
 
-    document.getElementById('audioBtn').addEventListener('click', () => {
-      startMelody();
-      burstSparkles(window.innerWidth - 40, 40, 20, true);
+    document.getElementById('audioTrigger').addEventListener('click', () => {
+      playArpeggio();
+      burstFireworks(window.innerWidth - 40, 40, 20, true);
     });
   </script>
 </body>
